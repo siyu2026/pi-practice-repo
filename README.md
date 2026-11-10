@@ -172,7 +172,7 @@ print(add(2, 3))
 
 ### 任务说明
 
-访问 \[pi.dev/packages](https://pi.dev/packages)，自选一个Pi插件包，执行项目级安装；完全退出Pi会话，重新启动，验证插件在Extensions列表成功加载，调用插件的功能完成测试。
+访问 [pi.dev/packages](https://pi.dev/packages)，自选一个Pi插件包，执行项目级安装；完全退出Pi会话，重新启动，验证插件在Extensions列表成功加载，调用插件的功能完成测试。
 
 
 

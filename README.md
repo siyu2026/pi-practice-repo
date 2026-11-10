@@ -192,7 +192,7 @@ pi install npm:pi-web-access -l --approve
 
 1\. 在项目目录执行插件安装命令。
 
-2\. 完全退出pi，重新执行`pi`启动客户端，观察启动输出`\[Extensions]`区域确认插件加载；也可以执行`pi list`查看已安装包。
+2\. 完全退出pi，重新执行`pi`启动客户端，观察启动输出`[Extensions]`区域确认插件加载；也可以执行`pi list`查看已安装包。
 
 3\. 发送测试提示词调用插件功能。
 
@@ -275,13 +275,13 @@ pi install npm:pi-web-access -l --approve
 
 本次实践完整完成Pi Agent客户端的安装部署，学习了API‑Key方式接入大模型；掌握切换模型、调整思考级别、`@`引用本地代码文件、图片输入、Pi‑package插件安装使用的操作。
 
-实践过程中了解Pi Agent扩展体系：\*\*Extension（插件）用于扩展工具命令；Skill提供任务脚本与业务能力文件\*\*。
+实践过程中了解Pi Agent扩展体系：**Extension（插件）用于扩展工具命令；Skill提供任务脚本与业务能力文件**。
 
 操作中遇到部分插件功能受网络、本机环境依赖影响无法完全执行成功；也理解Skill不是npm插件，不能使用`pi install`安装，需要下载完整目录放到项目`.pi/skills`路径下，重启Pi才能被发现加载。通过本次实验，熟悉了终端AI Agent的使用模式与扩展机制。
 
 
 
-\---
+---
 
 
 

@@ -290,38 +290,23 @@ pi install npm:pi-web-access -l --approve
 ```
 
 pi‑practice‑repo/
-
 ├─ README.md        # 这份报告文档
-
 └─ images/          # 全部截图放在这里
+   ├─ s1‑pi‑start.png
+   ├─ s2‑model‑chat.png
+   ├─ s3‑model‑switch.png
+   ├─ s3‑thinking‑level.png
+   ├─ s4‑at‑code‑file.png
+   ├─ s5‑paste‑image.png
+   ├─ s6‑plugin‑install.png
+   ├─ s6‑plugin‑loaded.png
+   ├─ s6‑plugin‑run1.png
+   ├─ s6‑plugin‑run2.png
+   ├─ s6‑plugin‑run3.png
+   ├─ s7‑skill‑folder.png
+   ├─ s8‑skill‑invoke1.png
+   └─ s8‑skill‑invoke2.png
 
-&#x20;  ├─ s1‑pi‑start.png
-
-&#x20;  ├─ s2‑model‑chat.png
-
-&#x20;  ├─ s3‑model‑switch.png
-
-&#x20;  ├─ s3‑thinking‑level.png
-
-&#x20;  ├─ s4‑at‑code‑file.png
-
-&#x20;  ├─ s5‑paste‑image.png
-
-&#x20;  ├─ s6‑plugin‑install.png
-
-&#x20;  ├─ s6‑plugin‑loaded.png
-
-&#x20;  ├─ s6‑plugin‑run1.png
-
-&#x20;  ├─ s6‑plugin‑run2.png
-
-&#x20;  ├─ s6‑plugin‑run3.png
-
-&#x20;  ├─ s7‑skill‑folder.png
-
-&#x20;  ├─ s8‑skill‑invoke1.png
-
-&#x20;  └─ s8‑skill‑invoke2.png
 
 ```
 

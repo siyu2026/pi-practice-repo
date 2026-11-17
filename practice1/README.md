@@ -289,7 +289,7 @@ pi install npm:pi-web-access -l --approve
 
 ```
 
-pi‑practice‑repo/
+practice1/
 ├─ README.md        # 这份报告文档
 └─ images/          # 全部截图放在这里
    ├─ s1‑pi‑start.png

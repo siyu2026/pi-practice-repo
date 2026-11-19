@@ -76,14 +76,35 @@ git status --short
 | `packages/` | 多包管理 |
 | `packages/coding-agent/package.json` | CLI 构建脚本和 `bin` 入口 |
 
-**截图 S3：** 根 `package.json` 的 `engines.node` 和 `scripts.build` 定义（可一张图包含两者，或分两张）。
+**截图 S3：** 根 `package.json` 的 `engines.node` 和 `scripts.build` 定义。
 
 ![S3 package.json engines 字段](images/s3-package-json1.png)
 ![S3 package.json scripts.build 字段](images/s3-package-json2.png)
 
 **回答问题：**
-- Node.js 版本要求在哪里？→ 在根目录 `package.json` 的 `engines.node` 字段，声明 `>=22.19.0`
-- `npm run build` 从哪里读取命令？→ 从根目录 `package.json` 的 `scripts.build` 字段
+
+**Q1：Node.js 版本要求在哪里？**
+
+在根目录 `package.json` 的 `engines.node` 字段中声明。本项目写的是 `>=22.19.0`，含义是：
+
+- `engines` 是 npm 的一个标准字段，用来声明当前包对运行环境的版本约束
+- 根 `package.json` 的 `engines` 对整个 workspaces（即 `packages/` 下所有子包）都生效
+- `>=22.19.0` 表示 Node.js 版本必须大于等于 22.19.0，补丁版本不限
+- 但要注意：某些子依赖可能有更高的版本要求，比如本次安装中出现的 `EBADENGINE` 警告，就是某个依赖包声明了 `>=23.6.0`，此时即使满足根项目要求也会触发警告
+
+可以用 `npm ls engines` 或直接打开根 `package.json` 查看这个字段的具体内容。
+
+**Q2：`npm run build` 实际从哪里读取命令？**
+
+从根目录 `package.json` 的 `scripts.build` 字段读取。具体执行链路是：
+
+1. 在终端输入 `npm run build` → npm 找到当前目录下的 `package.json`
+2. 读取其中的 `scripts.build` 字段值（一条 shell 命令字符串）
+3. 在子 shell 中执行这条命令
+
+本项目的 `scripts.build` 实际内容是一串用 `&&` 连接的 `npm --workspace <包名> run build` 命令，意思是：**依次进入每个子包，执行该子包自己的 `npm run build`**。`&&` 保证了前一个子包构建成功后才会继续下一个，一旦某个子包失败，整个构建就停止。
+
+这也解释了为什么必须在**根目录**执行 `npm run build`——因为只有根目录的 `package.json` 定义了完整的构建顺序，子包的 `package.json` 只定义各自包内部的构建逻辑。
 
 ---
 
@@ -133,7 +154,7 @@ node .\packages\coding-agent\dist\bundle\cli.js --version
 
 第一条应输出 `True`，第二条应输出版本号。
 
-**截图 S5：** 需包含以下全部内容（可分图）：
+**截图 S5：** 需包含以下全部内容：
 - `npm run build` 完整结束的最后一段输出 + 退出码 `0`
 - `Test-Path cli.js` 输出 `True`
 - `node cli.js --version` 输出版本号
@@ -162,7 +183,7 @@ node .\packages\coding-agent\dist\bundle\cli.js --version
 请用一句话说明源码和编译产物的区别。只回答问题，不修改文件。
 ```
 
-**截图 S6：** 需包含（可多张）：
+**截图 S6：** 需包含：
 - `.\pi-test.bat` 启动命令
 - Pi 交互界面
 - 自己的提示词
@@ -173,8 +194,24 @@ node .\packages\coding-agent\dist\bundle\cli.js --version
 ![S6 本地源码交互会话（3）](images/s6-local-session3.png)
 
 **回答问题：**
-- 本次如何确保运行的是本地源码？→ 使用 `.\pi-test.bat` 而非全局 `pi` 命令。`.bat` 调用 `.ps1`，直接运行 `packages/coding-agent/src/cli.ts` 源码
-- 源码入口与 `dist/bundle/cli.js` 入口分别适合什么场景？→ `pi-test.bat` 适合开发调试（改源码直接运行，无需 build）；`dist/bundle/cli.js` 适合验证构建产物是否正确
+
+**Q1：本次如何确保运行的是本地源码？**
+
+使用 `.\pi-test.bat` 而非全局 `pi` 命令。具体区别：
+
+- `pi` → 运行的是第一次实践课安装的**全局版本**（来自 `npm install -g`，产物在全局 node_modules 里）
+- `.\pi-test.bat` → 运行的是本次下载的**本地源码**。`.bat` 文件内部调用同目录下的 `.ps1` 脚本，由 Node.js 直接加载 `packages/coding-agent/src/cli.ts` 并执行，**完全跳过了 build 过程**
+
+两者共用同一用户配置目录 `~/.pi/agent`，所以登录凭据是复用的，这不代表运行的是全局版本。区分的关键就是命令：`pi` vs `.\pi-test.bat`。
+
+**Q2：源码入口与 `dist/bundle/cli.js` 入口分别适合什么场景？**
+
+| 入口 | 本质 | 适用场景 |
+|---|---|---|
+| `.\pi-test.bat` | 直接运行 `src/cli.ts` 源码，跳过编译 | 开发调试——改了源码直接跑，不用重新 `npm run build` |
+| `node dist/bundle/cli.js` | 运行 `npm run build` 产出的**编译后产物**（已打包压缩） | 验证构建是否正确——确认 build 没有把源码搞坏；以及最终交付前的测试 |
+
+简单说：**开发用前者，验构建用后者**。
 
 ---
 

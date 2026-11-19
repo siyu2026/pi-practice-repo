@@ -176,7 +176,6 @@ coding-agent 本身几乎不写"核心逻辑"，它是一个**组装器**：把�
 | 中间层 | chord        | 跨进程状态追踪 + 存储   | 不知道什么是 LLM、什么是编码任务        |
 | 上层   | durable      | 持久化 Agent 会话运行时 | 不知道怎么渲染终端 UI、怎么解析用户命令 |
 | 应用层 | coding-agent | CLI 主程序，组装一切    | —                                       |
-|
 
 这种分层使得：如果未来要把 Pi Agent 移植到浏览器或服务器端，只需要替换 coding-agent 和 durable 的一小部分，底层的 chord/telemetry/schema 完全可以复用。
 

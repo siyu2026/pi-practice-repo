@@ -40,7 +40,7 @@ git --version
 
 ---
 
-## 二、下载课程仓库源码（实践2已做，此处略）
+## 二、下载课程仓库源码
 
 执行过的命令：
 
@@ -218,13 +218,19 @@ node .\packages\coding-agent\dist\bundle\cli.js --version
 ## 七、遇到的困难与解决过程
 
 **问题1：npm install出现deprecated弃用警告**
+
 现象：执行`npm install --ignore-scripts`结束后，控制台输出多条`deprecated`弃用警告与配置提示警告，无`ERR!`类致命报错。
+
 原因：部分第三方依赖包已经停止维护，属于正常提示。
+
 解决：根据作业文档说明，弃用警告不会影响安装与编译，禁止执行`npm audit fix --force`，直接忽略警告，继续后续构建，`npm run build`可以正常完成。
 
 ---
 
 **问题2：运行pi‑test.bat出现目录信任弹窗**
+
 现象：执行`.\pi-test.bat`启动本地源码版本，弹出项目信任选择对话框，如果选择不信任，Pi会限制项目相关能力，无法完整使用交互会话。
+
 原因：Pi内置项目安全校验机制，需要确认是否信任当前源码目录。
+
 解决：选择`Trust(this session only)`，仅本次会话信任目录，关闭终端信任自动失效；确认后成功进入Pi交互界面，可正常进行对话。
